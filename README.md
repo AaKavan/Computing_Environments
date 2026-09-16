@@ -14,5 +14,7 @@ conda env create -f DINGO_env.yml -n DINGO
 conda env create -f environment.yml -n newenv
 ```
 
-See each subfolder's own README for environment-specific notes (GPU/CUDA requirements,
-non-pip dependencies, etc.).
+## Register as Kernel
+```bash
+python -m ipykernel install --user --name env_name --display-name "env_name"
+```
