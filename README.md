@@ -5,6 +5,9 @@ Reproducible setup for the conda/pip environments used across my research pipeli
 ## Environments
 
 -DINGO_env.yml: for installing DINGO and all dependencies
+```bash
+conda env create -f DINGO_env.yml -n DINGO
+```
 
 ## Usage
 ```bash
