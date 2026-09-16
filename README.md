@@ -1,19 +1,14 @@
 # Computing_Environments
 
-Reproducible setup for the conda/pip environments used across my research pipelines --
-one subfolder per environment, each with a pinned `requirements.txt` and a `setup.sh`
-that recreates it on a new machine.
+Reproducible setup for the conda/pip environments used across my research pipelines
 
 ## Environments
 
-- [`geko_clean/`](geko_clean/) Environment for running the unmodified [GEKO](https://github.com/angelicalola-danhaive/geko) code and all of it's dependencies. This environment heavily utlizies the [JAX](https://github.com/jax-ml/jax) + [CUDA](https://github.com/nvidia/cuda-samples) packages, and so the environment is heavily optimized for a Linux/Windows with the ability to install CUDA.
-- [`Yale_reu/`](Yale_reu/) Environment for my Summer Fellowship at Yale University (Dorrit Hoffleit Research Fellowship, Summer 2026). A fairly complete astronomy environment focused on observational stellar astrophysics (RR Lyrae and variable stars, radial velocity measurements, light curve analysis) using the Keck/DEIMOS instrument.
+-DINGO_env.yml: for installing DINGO and all dependencies
 
 ## Usage
-
 ```bash
-git clone https://github.com/AaKavan/Computing_Environments.git
-bash Computing_Environments/geko_clean/setup.sh
+conda env create -f environment.yml -n newenv
 ```
 
 See each subfolder's own README for environment-specific notes (GPU/CUDA requirements,
