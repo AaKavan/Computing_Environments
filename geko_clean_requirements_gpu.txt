@@ -1,0 +1,9 @@
+# geko_clean -- GPU extras. Install AFTER geko_clean_requirements.txt, and ONLY on
+# Linux x86_64 with an NVIDIA GPU. ~3 GB of CUDA wheels.
+#
+# CUDA 12, not 13: jax's CUDA-13 plugin does not support the V100s on Puma's
+# gpu_standard nodes. The version must match the pinned jax exactly.
+#
+# Nothing pip installs fixes a missing or too-old kernel driver -- check `nvidia-smi`
+# first. Without this file geko still runs, on CPU, roughly 10-20x slower.
+jax[cuda12]==0.8.3

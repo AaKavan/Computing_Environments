@@ -1,0 +1,15 @@
+# Bare conda layer for geko_clean: Python only. Everything else comes from pip, pinned
+# in geko_clean_requirements.txt.
+#
+#   conda env create -f geko_clean_env.yml -n geko_clean     # run from the repo root
+#
+# Prefer geko_clean_setup.sh -- it also handles the GPU extras, the STPSF reference data
+# and the Jupyter kernel, none of which this file can do.
+name: geko_clean
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - -r geko_clean_requirements.txt

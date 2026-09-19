@@ -1,0 +1,49 @@
+# geko_clean -- pinned DIRECT dependencies. pip resolves the rest.
+#
+# Deliberately not a `pip freeze` of the Puma env: that env was built mostly from
+# conda-forge, so freeze records those packages as `@ file:///home/conda/...` local paths
+# that do not exist on any other machine. (The old geko_clean/requirements.txt in this
+# repo's history has exactly that problem and cannot be installed anywhere.)
+#
+# Verified: this list resolves on PyPI and lands on the same versions as the working Puma
+# env for every package that matters -- jax, jaxlib, numpyro, numpy, scipy, astropy,
+# arviz, photutils, astro-geko, pysersic. 126 packages instead of 377.
+#
+# GPU support is NOT here -- see geko_clean_requirements_gpu.txt (Linux + NVIDIA only).
+
+# --- the code being run -------------------------------------------------------------
+astro-geko==1.0.0          # upstream geko from PyPI. Do NOT install a local working tree
+                           # instead -- modified checkouts drop the hardcoded pysersic
+                           # coordinate conversion the Halpha notebook relies on.
+pysersic==0.1.5            # morphology priors
+
+# --- JAX stack: THESE PINS ARE LOAD-BEARING -----------------------------------------
+# 0.8.3 + numpyro 0.19.0 is the combination verified working on Puma's V100 nodes with
+# the CUDA-12 plugin. Newer jax broke the pipeline in preprocess and its CUDA-13 plugin
+# does not support V100s at all. Do not float these to "latest" without re-running a
+# source end to end and comparing the posterior.
+jax==0.8.3
+jaxlib==0.8.3
+numpyro==0.19.0
+
+# --- PSF generation ------------------------------------------------------------------
+# webbpsf 2.0.0 is a compat shim over stpsf. It clobbers STPSF_PATH to "" the instant it
+# is imported, so anything that sets STPSF_PATH must do it AFTER `import webbpsf`.
+webbpsf==2.0.0
+stpsf==2.2.0
+
+# --- pinned because a mismatch here changes numerical results ------------------------
+numpy==2.3.5
+
+# --- setuptools: REQUIRED, and must stay below 82 -------------------------------------
+# jax-cosmo (a hard dependency of astro-geko) does `from pkg_resources import ...` at
+# import time. setuptools 82 REMOVED pkg_resources, and `conda create python=3.11` now
+# ships setuptools 83 -- so without this pin `import geko` fails outright with
+# "ModuleNotFoundError: No module named 'pkg_resources'". 81.0.0 still provides it
+# (deprecation warning only) and is what the working Puma env has.
+setuptools==81.0.0
+
+# --- notebook / tooling ---------------------------------------------------------------
+ipykernel==7.3.0
+pysiaf==0.28.0             # JWST aperture geometry; used to verify the grism rotation
+                           # angle (THETA_ROT) rather than trusting a magic constant
